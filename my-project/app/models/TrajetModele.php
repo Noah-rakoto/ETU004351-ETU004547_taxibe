@@ -21,14 +21,13 @@ class TrajetModele {
     $sql = "
         SELECT 
             DATE(t.date_heure_debut) AS jour,
-            v.immatriculation AS vehicule,
             CONCAT(c.nom, ' ', c.prenom) AS chauffeur,
             SUM(t.distance_km) AS km_total,
             SUM(t.montant_recette) AS total_recette,
             SUM(t.montant_carburant) AS total_carburant
-        FROM trajets t
-        JOIN vehicules v ON v.id = t.vehicule_id
-        JOIN chauffeurs c ON c.id = t.chauffeur_id
+        FROM tb_trajets t
+        JOIN tb_vehicules v ON v.id = t.vehicule_id
+        JOIN tb_chauffeurs c ON c.id = t.chauffeur_id
     ";
 
     if ($date !== null) {
