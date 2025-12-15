@@ -35,6 +35,30 @@ class TrajetModele {
     return $stmt->fetchAll();
 }
 
+    public function getBeneficeParJour($date = null) {
+        $sql = "SELECT * FROM vue_benefice_par_jour";
+        $params = [];
+        if ($date !== null) {
+            $sql .= " WHERE jour = ?";
+            $params[] = $date;
+        }
+        $sql .= " ORDER BY jour DESC";
+        $stmt = $this->db->runQuery($sql, $params);
+        return $stmt->fetchAll();
+    }
+
+    public function getTrajetsRentablesParJour($date = null) {
+        $sql = "SELECT * FROM vue_trajet_rentable_par_jour";
+        $params = [];
+        if ($date !== null) {
+            $sql .= " WHERE jour = ?";
+            $params[] = $date;
+        }
+        $sql .= " ORDER BY jour DESC";
+        $stmt = $this->db->runQuery($sql, $params);
+        return $stmt->fetchAll();
+    }
+
 
     
 }
