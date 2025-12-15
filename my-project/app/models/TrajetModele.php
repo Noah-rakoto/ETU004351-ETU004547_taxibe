@@ -18,36 +18,13 @@ class TrajetModele {
     }
     public function getListeParJour($date = null) {
 
-    $sql = "
-        SELECT 
-    DATE(t.date_heure_debut) AS jour,
-    CONCAT(c.nom, ' ', c.prenom) AS chauffeur,
-    v.marque,
-    v.modele,
-    SUM(t.distance_km) AS km_total,
-    SUM(t.montant_recette) AS total_recette,
-    SUM(t.montant_carburant) AS total_carburant
-FROM tb_trajets t
-JOIN tb_vehicules v ON v.id = t.vehicule_id
-JOIN tb_chauffeurs c ON c.id = t.chauffeur_id
-GROUP BY 
-    jour,
-    chauffeur,
-    v.marque,
-    v.modele
-ORDER BY jour;
-
-    ";
+    $sql = "SELECT * FROM vue_trajets_par_jour";
 
     if ($date !== null) {
-        $sql .= " WHERE DATE(t.date_heure_debut) = ?";
+        $sql .= " WHERE jour = ?";
     }
 
-    $sql .= "
-        GROUP BY 
-            jour, v.immatriculation, c.nom, c.prenom
-        ORDER BY jour DESC
-    ";
+    $sql .= " ORDER BY jour DESC";
 
     if ($date !== null) {
         $stmt = $this->db->runQuery($sql, [$date]);
@@ -57,6 +34,7 @@ ORDER BY jour;
 
     return $stmt->fetchAll();
 }
+
 
     
 }
